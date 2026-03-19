@@ -1,0 +1,39 @@
+"use client"
+import React,  { useContext, createContext, useState } from 'react';
+
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
+
+interface CartContextType {
+  id: string | null;
+  setId: React.Dispatch<React.SetStateAction<string | null>>;
+  cartItems: CartItem[];
+  addItem: (item: Omit<CartItem, "quantity">) => void;
+  removeItem: (id: string) => void
+  increaseItemQuantity: (id: string) => void
+  decreaseItemQuantity: (id: string) => void
+}
+
+const CartContext = createContext<CartContextType | null>(null);
+
+
+export const CartProvider = ({ children }: { children: React.ReactNode }) => { 
+   const [id, setId] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+}
+
+
+export const  useCartContext = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCartContext must be used within a CartProvider');
+  }
+  return context;
+}
